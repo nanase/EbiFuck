@@ -16,29 +16,25 @@ class Ebifuck {
         //	ポインタをインクリメント
         "エ" => function($o) {
   $o->ptr ++;
-  return null;
 },
         //	ポインタをデクリメント
         "ビ" => function($o) {
   $o->ptr --;
-  return null;
 },
         //	ポインタが指す値をインクリメント
         "フ" => function($o) {
   $o->memory[$o->ptr] ++;
-  return null;
 },
         //	ポインタが指す値をデクリメント
         "ラ" => function($o) {
   $o->memory[$o->ptr] --;
-  return null;
 },
         //	ポインタが指す値を出力に書き出す
         "イ" => function($o) {
   return sprintf("%c", $o->memory[$o->ptr]);
 },
         //	エビフライはおいしい！
-        "神" => function($o) {
+        "神" => function() {
   return "エビフライおいしい！一番好きな食べ物です！！";
 },
         //	ポインタが指す値が0なら、対応する]の直後にジャンプする
@@ -58,7 +54,6 @@ class Ebifuck {
       }
     }
   }
-  return null;
 },
         //	ポインタが指す値が0でないなら、対応する[の直後にジャンプする
         "衣" => function($o) {
@@ -76,7 +71,6 @@ class Ebifuck {
   }
   //	消す
   $o->pc --;
-  return null;
 }
     );
   }
