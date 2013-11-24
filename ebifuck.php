@@ -15,63 +15,63 @@ class Ebifuck {
     $this->defineEbi = array(
         // ポインタをインクリメント
         "エ" => function($o) {
-  $o->ptr ++;
-},
+          $o->ptr ++;
+        },
         // ポインタをデクリメント
         "ビ" => function($o) {
-  $o->ptr --;
-},
+          $o->ptr --;
+        },
         // ポインタが指す値をインクリメント
         "フ" => function($o) {
-  $o->memory[$o->ptr] ++;
-},
+          $o->memory[$o->ptr] ++;
+        },
         // ポインタが指す値をデクリメント
         "ラ" => function($o) {
-  $o->memory[$o->ptr] --;
-},
+          $o->memory[$o->ptr] --;
+        },
         // ポインタが指す値を出力に書き出す
         "イ" => function($o) {
-  return sprintf("%c", $o->memory[$o->ptr]);
-},
+          return sprintf("%c", $o->memory[$o->ptr]);
+        },
         // エビフライはおいしい！
         "神" => function() {
-  return "エビフライおいしい！一番好きな食べ物です！！";
-},
+          return "エビフライおいしい！一番好きな食べ物です！！";
+        },
         // ポインタが指す値が0なら、対応する]の直後にジャンプする
         "皮" => function($o) {
-  // 値は0だよな？
-  if (!$o->memory[$o->ptr]) {
-    for (;;) {
-      // プログラムカウンタを増加
-      $c = mb_substr($o->buffer, ++$o->pc, 1, "utf-8");
-      if ($c === "皮") {
-        $this->nest ++;
-        break;
-      }
-      if ($c === "衣") {
-        $this->nest --;
-        break;
-      }
-    }
-  }
-},
+          // 値は0だよな？
+          if (!$o->memory[$o->ptr]) {
+            for (;;) {
+              // プログラムカウンタを増加
+              $c = mb_substr($o->buffer, ++$o->pc, 1, "utf-8");
+              if ($c === "皮") {
+                $this->nest ++;
+                break;
+              }
+              if ($c === "衣") {
+                $this->nest --;
+                break;
+              }
+            }
+          }
+        },
         // ポインタが指す値が0でないなら、対応する[の直後にジャンプする
         "衣" => function($o) {
-  for (;;) {
-    // プログラムカウンタを減らす
-    $c = mb_substr($o->buffer, --$o->pc, 1, "utf-8");
-    if ($c === "皮") {
-      $this->nest --;
-      break;
-    }
-    if ($c === "衣") {
-      $this->nest ++;
-      break;
-    }
-  }
-  // 消す
-  $o->pc --;
-}
+          for (;;) {
+            // プログラムカウンタを減らす
+            $c = mb_substr($o->buffer, --$o->pc, 1, "utf-8");
+            if ($c === "皮") {
+              $this->nest --;
+              break;
+            }
+            if ($c === "衣") {
+              $this->nest ++;
+              break;
+            }
+          }
+          // 消す
+          $o->pc --;
+        }
     );
   }
 
