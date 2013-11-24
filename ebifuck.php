@@ -10,39 +10,39 @@ class Ebifuck {
   private $memory;
   private $nest = 0;
 
-  //	コンストラクタで定義すっか
+  // コンストラクタで定義すっか
   function __construct() {
     $this->defineEbi = array(
-        //	ポインタをインクリメント
+        // ポインタをインクリメント
         "エ" => function($o) {
   $o->ptr ++;
 },
-        //	ポインタをデクリメント
+        // ポインタをデクリメント
         "ビ" => function($o) {
   $o->ptr --;
 },
-        //	ポインタが指す値をインクリメント
+        // ポインタが指す値をインクリメント
         "フ" => function($o) {
   $o->memory[$o->ptr] ++;
 },
-        //	ポインタが指す値をデクリメント
+        // ポインタが指す値をデクリメント
         "ラ" => function($o) {
   $o->memory[$o->ptr] --;
 },
-        //	ポインタが指す値を出力に書き出す
+        // ポインタが指す値を出力に書き出す
         "イ" => function($o) {
   return sprintf("%c", $o->memory[$o->ptr]);
 },
-        //	エビフライはおいしい！
+        // エビフライはおいしい！
         "神" => function() {
   return "エビフライおいしい！一番好きな食べ物です！！";
 },
-        //	ポインタが指す値が0なら、対応する]の直後にジャンプする
+        // ポインタが指す値が0なら、対応する]の直後にジャンプする
         "皮" => function($o) {
-  //	値は0だよな？
+  // 値は0だよな？
   if (!$o->memory[$o->ptr]) {
     for (;;) {
-      //	プログラムカウンタを増加
+      // プログラムカウンタを増加
       $c = mb_substr($o->buffer, ++$o->pc, 1, "utf-8");
       if ($c === "皮") {
         $this->nest ++;
@@ -55,10 +55,10 @@ class Ebifuck {
     }
   }
 },
-        //	ポインタが指す値が0でないなら、対応する[の直後にジャンプする
+        // ポインタが指す値が0でないなら、対応する[の直後にジャンプする
         "衣" => function($o) {
   for (;;) {
-    //	プログラムカウンタを減らす
+    // プログラムカウンタを減らす
     $c = mb_substr($o->buffer, --$o->pc, 1, "utf-8");
     if ($c === "皮") {
       $this->nest --;
@@ -69,13 +69,13 @@ class Ebifuck {
       break;
     }
   }
-  //	消す
+  // 消す
   $o->pc --;
 }
     );
   }
 
-  //	実行命令
+  // 実行命令
   function exec($code) {
     $this->buffer = $code;
     $this->memory = array_fill(0, 1024 * 1024, 0);
@@ -83,16 +83,16 @@ class Ebifuck {
     $result = "";
 
     for ($this->pc = 0, $this->ptr = 0; $this->pc < $this->buffer_size; $this->pc ++) {
-      //	命令あるか？
+      // 命令あるか？
       $c = mb_substr($this->buffer, $this->pc, 1, "utf-8");
       if (!array_key_exists($c, $this->defineEbi)) {
         continue;
       }
 
-      //	あったら実行
+      // あったら実行
       $w = $this->defineEbi[$c]($this);
 
-      //	ついでに出力も拾う
+      // ついでに出力も拾う
       if (!is_null($w)) {
         $result = sprintf("%s%s", $result, $w);
       }
@@ -102,7 +102,7 @@ class Ebifuck {
 
 }
 
-//	ためし
+// ためし
 $d = new Ebifuck ();
 echo $d->exec("フフフフフフフフフ皮エフフフフフフフフエフフフフフフフフフフフエフフフフフビビビラ衣エイエフフイフフフフフフフイイフフフイエライ
 ラララララララララララライビフフフフフフフフイラララララララライフフフイラララララライラララララララライエフイ神");
